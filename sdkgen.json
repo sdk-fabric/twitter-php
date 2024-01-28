@@ -3,7 +3,7 @@
   "require": {
     "sdkfabric/twitter": {
       "target": "./src",
-      "namespace": "SdkFabric\Twitter"
+      "namespace": "SdkFabric\\Twitter"
     }
   }
 }
