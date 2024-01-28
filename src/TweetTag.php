@@ -14,40 +14,65 @@ use Sdkgen\Client\TagAbstract;
 class TweetTag extends TagAbstract
 {
     /**
-     * Returns a variety of information about the Tweet specified by the requested ID or list of IDs.
+     * Creates a Tweet on behalf of an authenticated user.
      *
-     * @param string|null $ids
-     * @param string|null $expansions
-     * @param string|null $mediaFields
-     * @param string|null $placeFields
-     * @param string|null $pollFields
-     * @param string|null $tweetFields
-     * @param string|null $userFields
-     * @return TweetCollectionResponse
+     * @param Tweet $payload
+     * @return TweetCreateResponse
      * @throws ClientException
      */
-    public function getAll(?string $ids = null, ?string $expansions = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetCollectionResponse
+    public function create(Tweet $payload): TweetCreateResponse
     {
         $url = $this->parser->url('/2/tweets', [
         ]);
 
         $options = [
             'query' => $this->parser->query([
-                'ids' => $ids,
-                'expansions' => $expansions,
-                'media.fields' => $mediaFields,
-                'place.fields' => $placeFields,
-                'poll.fields' => $pollFields,
-                'tweet.fields' => $tweetFields,
-                'user.fields' => $userFields,
+            ]),
+            'json' => $payload
+        ];
+
+        try {
+            $response = $this->httpClient->request('POST', $url, $options);
+            $data = (string) $response->getBody();
+
+            return $this->parser->parse($data, TweetCreateResponse::class);
+        } catch (ClientException $e) {
+            throw $e;
+        } catch (BadResponseException $e) {
+            $data = (string) $e->getResponse()->getBody();
+
+            switch ($e->getResponse()->getStatusCode()) {
+                default:
+                    throw new UnknownStatusCodeException('The server returned an unknown status code');
+            }
+        } catch (\Throwable $e) {
+            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Allows a user or authenticated user ID to delete a Tweet.
+     *
+     * @param string $id
+     * @return TweetDeleteResponse
+     * @throws ClientException
+     */
+    public function delete(string $id): TweetDeleteResponse
+    {
+        $url = $this->parser->url('/2/tweets/:id', [
+            'id' => $id,
+        ]);
+
+        $options = [
+            'query' => $this->parser->query([
             ]),
         ];
 
         try {
-            $response = $this->httpClient->request('GET', $url, $options);
+            $response = $this->httpClient->request('DELETE', $url, $options);
             $data = (string) $response->getBody();
 
-            return $this->parser->parse($data, TweetCollectionResponse::class);
+            return $this->parser->parse($data, TweetDeleteResponse::class);
         } catch (ClientException $e) {
             throw $e;
         } catch (BadResponseException $e) {
@@ -112,65 +137,40 @@ class TweetTag extends TagAbstract
     }
 
     /**
-     * Creates a Tweet on behalf of an authenticated user.
+     * Returns a variety of information about the Tweet specified by the requested ID or list of IDs.
      *
-     * @param Tweet $payload
-     * @return TweetCreateResponse
+     * @param string|null $expansions
+     * @param string|null $ids
+     * @param string|null $mediaFields
+     * @param string|null $placeFields
+     * @param string|null $pollFields
+     * @param string|null $tweetFields
+     * @param string|null $userFields
+     * @return TweetCollectionResponse
      * @throws ClientException
      */
-    public function create(Tweet $payload): TweetCreateResponse
+    public function getAll(?string $expansions = null, ?string $ids = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetCollectionResponse
     {
         $url = $this->parser->url('/2/tweets', [
         ]);
 
         $options = [
             'query' => $this->parser->query([
-            ]),
-            'json' => $payload
-        ];
-
-        try {
-            $response = $this->httpClient->request('POST', $url, $options);
-            $data = (string) $response->getBody();
-
-            return $this->parser->parse($data, TweetCreateResponse::class);
-        } catch (ClientException $e) {
-            throw $e;
-        } catch (BadResponseException $e) {
-            $data = (string) $e->getResponse()->getBody();
-
-            switch ($e->getResponse()->getStatusCode()) {
-                default:
-                    throw new UnknownStatusCodeException('The server returned an unknown status code');
-            }
-        } catch (\Throwable $e) {
-            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Allows a user or authenticated user ID to delete a Tweet.
-     *
-     * @param string $id
-     * @return TweetDeleteResponse
-     * @throws ClientException
-     */
-    public function delete(string $id): TweetDeleteResponse
-    {
-        $url = $this->parser->url('/2/tweets/:id', [
-            'id' => $id,
-        ]);
-
-        $options = [
-            'query' => $this->parser->query([
+                'expansions' => $expansions,
+                'ids' => $ids,
+                'media.fields' => $mediaFields,
+                'place.fields' => $placeFields,
+                'poll.fields' => $pollFields,
+                'tweet.fields' => $tweetFields,
+                'user.fields' => $userFields,
             ]),
         ];
 
         try {
-            $response = $this->httpClient->request('DELETE', $url, $options);
+            $response = $this->httpClient->request('GET', $url, $options);
             $data = (string) $response->getBody();
 
-            return $this->parser->parse($data, TweetDeleteResponse::class);
+            return $this->parser->parse($data, TweetCollectionResponse::class);
         } catch (ClientException $e) {
             throw $e;
         } catch (BadResponseException $e) {
