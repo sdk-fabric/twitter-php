@@ -14,6 +14,104 @@ use Sdkgen\Client\TagAbstract;
 class TweetTag extends TagAbstract
 {
     /**
+     * Returns a variety of information about the Tweet specified by the requested ID or list of IDs.
+     *
+     * @param string|null $ids
+     * @param string|null $expansions
+     * @param string|null $mediaFields
+     * @param string|null $placeFields
+     * @param string|null $pollFields
+     * @param string|null $tweetFields
+     * @param string|null $userFields
+     * @return TweetCollectionResponse
+     * @throws ClientException
+     */
+    public function getAll(?string $ids = null, ?string $expansions = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetCollectionResponse
+    {
+        $url = $this->parser->url('/2/tweets', [
+        ]);
+
+        $options = [
+            'query' => $this->parser->query([
+                'ids' => $ids,
+                'expansions' => $expansions,
+                'media.fields' => $mediaFields,
+                'place.fields' => $placeFields,
+                'poll.fields' => $pollFields,
+                'tweet.fields' => $tweetFields,
+                'user.fields' => $userFields,
+            ]),
+        ];
+
+        try {
+            $response = $this->httpClient->request('GET', $url, $options);
+            $data = (string) $response->getBody();
+
+            return $this->parser->parse($data, TweetCollectionResponse::class);
+        } catch (ClientException $e) {
+            throw $e;
+        } catch (BadResponseException $e) {
+            $data = (string) $e->getResponse()->getBody();
+
+            switch ($e->getResponse()->getStatusCode()) {
+                default:
+                    throw new UnknownStatusCodeException('The server returned an unknown status code');
+            }
+        } catch (\Throwable $e) {
+            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Returns a variety of information about a single Tweet specified by the requested ID.
+     *
+     * @param string $tweetId
+     * @param string|null $expansions
+     * @param string|null $mediaFields
+     * @param string|null $placeFields
+     * @param string|null $pollFields
+     * @param string|null $tweetFields
+     * @param string|null $userFields
+     * @return TweetEntityResponse
+     * @throws ClientException
+     */
+    public function get(string $tweetId, ?string $expansions = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetEntityResponse
+    {
+        $url = $this->parser->url('/2/tweets/:tweet_id', [
+            'tweet_id' => $tweetId,
+        ]);
+
+        $options = [
+            'query' => $this->parser->query([
+                'expansions' => $expansions,
+                'media.fields' => $mediaFields,
+                'place.fields' => $placeFields,
+                'poll.fields' => $pollFields,
+                'tweet.fields' => $tweetFields,
+                'user.fields' => $userFields,
+            ]),
+        ];
+
+        try {
+            $response = $this->httpClient->request('GET', $url, $options);
+            $data = (string) $response->getBody();
+
+            return $this->parser->parse($data, TweetEntityResponse::class);
+        } catch (ClientException $e) {
+            throw $e;
+        } catch (BadResponseException $e) {
+            $data = (string) $e->getResponse()->getBody();
+
+            switch ($e->getResponse()->getStatusCode()) {
+                default:
+                    throw new UnknownStatusCodeException('The server returned an unknown status code');
+            }
+        } catch (\Throwable $e) {
+            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Creates a Tweet on behalf of an authenticated user.
      *
      * @param Tweet $payload
@@ -53,14 +151,14 @@ class TweetTag extends TagAbstract
     /**
      * Allows a user or authenticated user ID to delete a Tweet.
      *
-     * @param string $id
+     * @param string $tweetId
      * @return TweetDeleteResponse
      * @throws ClientException
      */
-    public function delete(string $id): TweetDeleteResponse
+    public function delete(string $tweetId): TweetDeleteResponse
     {
-        $url = $this->parser->url('/2/tweets/:id', [
-            'id' => $id,
+        $url = $this->parser->url('/2/tweets/:tweet_id', [
+            'tweet_id' => $tweetId,
         ]);
 
         $options = [
@@ -73,104 +171,6 @@ class TweetTag extends TagAbstract
             $data = (string) $response->getBody();
 
             return $this->parser->parse($data, TweetDeleteResponse::class);
-        } catch (ClientException $e) {
-            throw $e;
-        } catch (BadResponseException $e) {
-            $data = (string) $e->getResponse()->getBody();
-
-            switch ($e->getResponse()->getStatusCode()) {
-                default:
-                    throw new UnknownStatusCodeException('The server returned an unknown status code');
-            }
-        } catch (\Throwable $e) {
-            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Returns a variety of information about a single Tweet specified by the requested ID.
-     *
-     * @param string $id
-     * @param string|null $expansions
-     * @param string|null $mediaFields
-     * @param string|null $placeFields
-     * @param string|null $pollFields
-     * @param string|null $tweetFields
-     * @param string|null $userFields
-     * @return TweetEntityResponse
-     * @throws ClientException
-     */
-    public function get(string $id, ?string $expansions = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetEntityResponse
-    {
-        $url = $this->parser->url('/2/tweets/:id', [
-            'id' => $id,
-        ]);
-
-        $options = [
-            'query' => $this->parser->query([
-                'expansions' => $expansions,
-                'media.fields' => $mediaFields,
-                'place.fields' => $placeFields,
-                'poll.fields' => $pollFields,
-                'tweet.fields' => $tweetFields,
-                'user.fields' => $userFields,
-            ]),
-        ];
-
-        try {
-            $response = $this->httpClient->request('GET', $url, $options);
-            $data = (string) $response->getBody();
-
-            return $this->parser->parse($data, TweetEntityResponse::class);
-        } catch (ClientException $e) {
-            throw $e;
-        } catch (BadResponseException $e) {
-            $data = (string) $e->getResponse()->getBody();
-
-            switch ($e->getResponse()->getStatusCode()) {
-                default:
-                    throw new UnknownStatusCodeException('The server returned an unknown status code');
-            }
-        } catch (\Throwable $e) {
-            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Returns a variety of information about the Tweet specified by the requested ID or list of IDs.
-     *
-     * @param string|null $expansions
-     * @param string|null $ids
-     * @param string|null $mediaFields
-     * @param string|null $placeFields
-     * @param string|null $pollFields
-     * @param string|null $tweetFields
-     * @param string|null $userFields
-     * @return TweetCollectionResponse
-     * @throws ClientException
-     */
-    public function getAll(?string $expansions = null, ?string $ids = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetCollectionResponse
-    {
-        $url = $this->parser->url('/2/tweets', [
-        ]);
-
-        $options = [
-            'query' => $this->parser->query([
-                'expansions' => $expansions,
-                'ids' => $ids,
-                'media.fields' => $mediaFields,
-                'place.fields' => $placeFields,
-                'poll.fields' => $pollFields,
-                'tweet.fields' => $tweetFields,
-                'user.fields' => $userFields,
-            ]),
-        ];
-
-        try {
-            $response = $this->httpClient->request('GET', $url, $options);
-            $data = (string) $response->getBody();
-
-            return $this->parser->parse($data, TweetCollectionResponse::class);
         } catch (ClientException $e) {
             throw $e;
         } catch (BadResponseException $e) {

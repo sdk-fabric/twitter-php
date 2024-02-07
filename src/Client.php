@@ -22,6 +22,30 @@ class Client extends ClientAbstract
         );
     }
 
+    public function usage(): UsageTag
+    {
+        return new UsageTag(
+            $this->httpClient,
+            $this->parser
+        );
+    }
+
+    public function user(): UserTag
+    {
+        return new UserTag(
+            $this->httpClient,
+            $this->parser
+        );
+    }
+
+    public function bookmark(): BookmarkTag
+    {
+        return new BookmarkTag(
+            $this->httpClient,
+            $this->parser
+        );
+    }
+
 
 
     public static function build(string $token): self
