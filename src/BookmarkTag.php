@@ -14,7 +14,7 @@ use Sdkgen\Client\TagAbstract;
 class BookmarkTag extends TagAbstract
 {
     /**
-     * Allows you to get an authenticated user&#039;s 800 most recent bookmarked Tweets.
+     * Allows you to get an authenticated user's 800 most recent bookmarked Tweets.
      *
      * @param string $userId
      * @param string|null $expansions
