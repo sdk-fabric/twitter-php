@@ -48,6 +48,14 @@ class Client extends ClientAbstract
         );
     }
 
+    public function likes(): LikesTag
+    {
+        return new LikesTag(
+            $this->httpClient,
+            $this->parser
+        );
+    }
+
 
 
     public static function build(string $token): self
