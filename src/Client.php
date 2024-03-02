@@ -48,6 +48,14 @@ class Client extends ClientAbstract
         );
     }
 
+    public function search(): SearchTag
+    {
+        return new SearchTag(
+            $this->httpClient,
+            $this->parser
+        );
+    }
+
 
 
     public static function build(string $token): self

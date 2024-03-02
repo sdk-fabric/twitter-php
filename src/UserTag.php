@@ -79,7 +79,7 @@ class UserTag extends TagAbstract
      *
      * @param string $userId
      * @param string|null $expansions
-     * @param string|null $maxResults
+     * @param int|null $maxResults
      * @param string|null $paginationToken
      * @param string|null $mediaFields
      * @param string|null $placeFields
@@ -89,7 +89,7 @@ class UserTag extends TagAbstract
      * @return TweetCollectionResponse
      * @throws ClientException
      */
-    public function getLikedTweets(string $userId, ?string $expansions = null, ?string $maxResults = null, ?string $paginationToken = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetCollectionResponse
+    public function getLikedTweets(string $userId, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetCollectionResponse
     {
         $url = $this->parser->url('/2/users/:user_id/liked_tweets', [
             'user_id' => $userId,
