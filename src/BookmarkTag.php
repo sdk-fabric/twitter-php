@@ -69,10 +69,10 @@ class BookmarkTag extends TagAbstract
     /**
      * @param string $userId
      * @param BookmarkCreate $payload
-     * @return BookmarkCreateResponse
+     * @return BookmarkResponse
      * @throws ClientException
      */
-    public function create(string $userId, BookmarkCreate $payload): BookmarkCreateResponse
+    public function create(string $userId, BookmarkCreate $payload): BookmarkResponse
     {
         $url = $this->parser->url('/2/users/:user_id/bookmarks', [
             'user_id' => $userId,
@@ -88,7 +88,44 @@ class BookmarkTag extends TagAbstract
             $response = $this->httpClient->request('POST', $url, $options);
             $data = (string) $response->getBody();
 
-            return $this->parser->parse($data, BookmarkCreateResponse::class);
+            return $this->parser->parse($data, BookmarkResponse::class);
+        } catch (ClientException $e) {
+            throw $e;
+        } catch (BadResponseException $e) {
+            $data = (string) $e->getResponse()->getBody();
+
+            switch ($e->getResponse()->getStatusCode()) {
+                default:
+                    throw new UnknownStatusCodeException('The server returned an unknown status code');
+            }
+        } catch (\Throwable $e) {
+            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * @param string $userId
+     * @param string $tweetId
+     * @return BookmarkResponse
+     * @throws ClientException
+     */
+    public function delete(string $userId, string $tweetId): BookmarkResponse
+    {
+        $url = $this->parser->url('/2/users/:user_id/bookmarks/:tweet_id', [
+            'user_id' => $userId,
+            'tweet_id' => $tweetId,
+        ]);
+
+        $options = [
+            'query' => $this->parser->query([
+            ]),
+        ];
+
+        try {
+            $response = $this->httpClient->request('DELETE', $url, $options);
+            $data = (string) $response->getBody();
+
+            return $this->parser->parse($data, BookmarkResponse::class);
         } catch (ClientException $e) {
             throw $e;
         } catch (BadResponseException $e) {
