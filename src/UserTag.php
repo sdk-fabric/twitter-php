@@ -56,5 +56,58 @@ class UserTag extends TagAbstract
         }
     }
 
+    /**
+     * Tweets liked by a user
+     *
+     * @param string $userId
+     * @param string|null $expansions
+     * @param string|null $maxResults
+     * @param string|null $paginationToken
+     * @param string|null $mediaFields
+     * @param string|null $placeFields
+     * @param string|null $pollFields
+     * @param string|null $tweetFields
+     * @param string|null $userFields
+     * @return TweetCollectionResponse
+     * @throws ClientException
+     */
+    public function getLikedTweets(string $userId, ?string $expansions = null, ?string $maxResults = null, ?string $paginationToken = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetCollectionResponse
+    {
+        $url = $this->parser->url('/2/users/:user_id/liked_tweets', [
+            'user_id' => $userId,
+        ]);
+
+        $options = [
+            'query' => $this->parser->query([
+                'expansions' => $expansions,
+                'max_results' => $maxResults,
+                'pagination_token' => $paginationToken,
+                'media.fields' => $mediaFields,
+                'place.fields' => $placeFields,
+                'poll.fields' => $pollFields,
+                'tweet.fields' => $tweetFields,
+                'user.fields' => $userFields,
+            ]),
+        ];
+
+        try {
+            $response = $this->httpClient->request('GET', $url, $options);
+            $data = (string) $response->getBody();
+
+            return $this->parser->parse($data, TweetCollectionResponse::class);
+        } catch (ClientException $e) {
+            throw $e;
+        } catch (BadResponseException $e) {
+            $data = (string) $e->getResponse()->getBody();
+
+            switch ($e->getResponse()->getStatusCode()) {
+                default:
+                    throw new UnknownStatusCodeException('The server returned an unknown status code');
+            }
+        } catch (\Throwable $e) {
+            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
+        }
+    }
+
 
 }
