@@ -56,6 +56,14 @@ class Client extends ClientAbstract
         );
     }
 
+    public function quote(): QuoteTag
+    {
+        return new QuoteTag(
+            $this->httpClient,
+            $this->parser
+        );
+    }
+
 
 
     public static function build(string $token): self
