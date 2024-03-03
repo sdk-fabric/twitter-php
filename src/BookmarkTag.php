@@ -68,11 +68,11 @@ class BookmarkTag extends TagAbstract
 
     /**
      * @param string $userId
-     * @param BookmarkCreate $payload
+     * @param SingleTweet $payload
      * @return BookmarkResponse
      * @throws ClientException
      */
-    public function create(string $userId, BookmarkCreate $payload): BookmarkResponse
+    public function create(string $userId, SingleTweet $payload): BookmarkResponse
     {
         $url = $this->parser->url('/2/users/:user_id/bookmarks', [
             'user_id' => $userId,

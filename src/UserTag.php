@@ -127,5 +127,79 @@ class UserTag extends TagAbstract
         }
     }
 
+    /**
+     * @param string $userId
+     * @param string $tweetId
+     * @return LikeResponse
+     * @throws ClientException
+     */
+    public function removeLike(string $userId, string $tweetId): LikeResponse
+    {
+        $url = $this->parser->url('/2/users/:user_id/likes/:tweet_id', [
+            'user_id' => $userId,
+            'tweet_id' => $tweetId,
+        ]);
+
+        $options = [
+            'query' => $this->parser->query([
+            ]),
+        ];
+
+        try {
+            $response = $this->httpClient->request('DELETE', $url, $options);
+            $data = (string) $response->getBody();
+
+            return $this->parser->parse($data, LikeResponse::class);
+        } catch (ClientException $e) {
+            throw $e;
+        } catch (BadResponseException $e) {
+            $data = (string) $e->getResponse()->getBody();
+
+            switch ($e->getResponse()->getStatusCode()) {
+                default:
+                    throw new UnknownStatusCodeException('The server returned an unknown status code');
+            }
+        } catch (\Throwable $e) {
+            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * @param string $userId
+     * @param SingleTweet $payload
+     * @return LikeResponse
+     * @throws ClientException
+     */
+    public function createLike(string $userId, SingleTweet $payload): LikeResponse
+    {
+        $url = $this->parser->url('/2/users/:user_id/likes', [
+            'user_id' => $userId,
+        ]);
+
+        $options = [
+            'query' => $this->parser->query([
+            ]),
+            'json' => $payload
+        ];
+
+        try {
+            $response = $this->httpClient->request('POST', $url, $options);
+            $data = (string) $response->getBody();
+
+            return $this->parser->parse($data, LikeResponse::class);
+        } catch (ClientException $e) {
+            throw $e;
+        } catch (BadResponseException $e) {
+            $data = (string) $e->getResponse()->getBody();
+
+            switch ($e->getResponse()->getStatusCode()) {
+                default:
+                    throw new UnknownStatusCodeException('The server returned an unknown status code');
+            }
+        } catch (\Throwable $e) {
+            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
+        }
+    }
+
 
 }
