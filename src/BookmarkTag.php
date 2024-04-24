@@ -44,6 +44,7 @@ class BookmarkTag extends TagAbstract
                 'poll.fields' => $pollFields,
                 'tweet.fields' => $tweetFields,
                 'user.fields' => $userFields,
+            ], [
             ]),
         ];
 
@@ -80,6 +81,7 @@ class BookmarkTag extends TagAbstract
 
         $options = [
             'query' => $this->parser->query([
+            ], [
             ]),
             'json' => $payload
         ];
@@ -118,6 +120,7 @@ class BookmarkTag extends TagAbstract
 
         $options = [
             'query' => $this->parser->query([
+            ], [
             ]),
         ];
 

@@ -40,6 +40,7 @@ class TweetTag extends TagAbstract
                 'poll.fields' => $pollFields,
                 'tweet.fields' => $tweetFields,
                 'user.fields' => $userFields,
+            ], [
             ]),
         ];
 
@@ -89,6 +90,7 @@ class TweetTag extends TagAbstract
                 'poll.fields' => $pollFields,
                 'tweet.fields' => $tweetFields,
                 'user.fields' => $userFields,
+            ], [
             ]),
         ];
 
@@ -125,6 +127,7 @@ class TweetTag extends TagAbstract
 
         $options = [
             'query' => $this->parser->query([
+            ], [
             ]),
             'json' => $payload
         ];
@@ -163,6 +166,7 @@ class TweetTag extends TagAbstract
 
         $options = [
             'query' => $this->parser->query([
+            ], [
             ]),
         ];
 
@@ -201,6 +205,7 @@ class TweetTag extends TagAbstract
 
         $options = [
             'query' => $this->parser->query([
+            ], [
             ]),
             'json' => $payload
         ];

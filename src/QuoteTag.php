@@ -46,6 +46,7 @@ class QuoteTag extends TagAbstract
                 'poll.fields' => $pollFields,
                 'tweet.fields' => $tweetFields,
                 'user.fields' => $userFields,
+            ], [
             ]),
         ];
 

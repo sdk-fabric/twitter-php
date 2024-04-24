@@ -64,6 +64,14 @@ class Client extends ClientAbstract
         );
     }
 
+    public function trends(): TrendsTag
+    {
+        return new TrendsTag(
+            $this->httpClient,
+            $this->parser
+        );
+    }
+
 
 
     public static function build(string $token): self
