@@ -18,15 +18,11 @@ class TweetTag extends TagAbstract
      *
      * @param string|null $ids
      * @param string|null $expansions
-     * @param string|null $mediaFields
-     * @param string|null $placeFields
-     * @param string|null $pollFields
-     * @param string|null $tweetFields
-     * @param string|null $userFields
+     * @param Fields|null $fields
      * @return TweetCollectionResponse
      * @throws ClientException
      */
-    public function getAll(?string $ids = null, ?string $expansions = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetCollectionResponse
+    public function getAll(?string $ids = null, ?string $expansions = null, ?Fields $fields = null): TweetCollectionResponse
     {
         $url = $this->parser->url('/2/tweets', [
         ]);
@@ -35,12 +31,9 @@ class TweetTag extends TagAbstract
             'query' => $this->parser->query([
                 'ids' => $ids,
                 'expansions' => $expansions,
-                'media.fields' => $mediaFields,
-                'place.fields' => $placeFields,
-                'poll.fields' => $pollFields,
-                'tweet.fields' => $tweetFields,
-                'user.fields' => $userFields,
+                'fields' => $fields,
             ], [
+                'fields',
             ]),
         ];
 
@@ -68,15 +61,11 @@ class TweetTag extends TagAbstract
      *
      * @param string $tweetId
      * @param string|null $expansions
-     * @param string|null $mediaFields
-     * @param string|null $placeFields
-     * @param string|null $pollFields
-     * @param string|null $tweetFields
-     * @param string|null $userFields
+     * @param Fields|null $fields
      * @return TweetEntityResponse
      * @throws ClientException
      */
-    public function get(string $tweetId, ?string $expansions = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetEntityResponse
+    public function get(string $tweetId, ?string $expansions = null, ?Fields $fields = null): TweetEntityResponse
     {
         $url = $this->parser->url('/2/tweets/:tweet_id', [
             'tweet_id' => $tweetId,
@@ -85,12 +74,9 @@ class TweetTag extends TagAbstract
         $options = [
             'query' => $this->parser->query([
                 'expansions' => $expansions,
-                'media.fields' => $mediaFields,
-                'place.fields' => $placeFields,
-                'poll.fields' => $pollFields,
-                'tweet.fields' => $tweetFields,
-                'user.fields' => $userFields,
+                'fields' => $fields,
             ], [
+                'fields',
             ]),
         ];
 

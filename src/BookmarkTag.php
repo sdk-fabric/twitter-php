@@ -20,15 +20,11 @@ class BookmarkTag extends TagAbstract
      * @param string|null $expansions
      * @param int|null $maxResults
      * @param string|null $paginationToken
-     * @param string|null $mediaFields
-     * @param string|null $placeFields
-     * @param string|null $pollFields
-     * @param string|null $tweetFields
-     * @param string|null $userFields
+     * @param Fields|null $fields
      * @return TweetCollectionResponse
      * @throws ClientException
      */
-    public function getAll(string $userId, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetCollectionResponse
+    public function getAll(string $userId, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null, ?Fields $fields = null): TweetCollectionResponse
     {
         $url = $this->parser->url('/2/users/:user_id/bookmarks', [
             'user_id' => $userId,
@@ -39,12 +35,9 @@ class BookmarkTag extends TagAbstract
                 'expansions' => $expansions,
                 'max_results' => $maxResults,
                 'pagination_token' => $paginationToken,
-                'media.fields' => $mediaFields,
-                'place.fields' => $placeFields,
-                'poll.fields' => $pollFields,
-                'tweet.fields' => $tweetFields,
-                'user.fields' => $userFields,
+                'fields' => $fields,
             ], [
+                'fields',
             ]),
         ];
 

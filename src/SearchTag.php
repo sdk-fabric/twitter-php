@@ -22,15 +22,11 @@ class SearchTag extends TagAbstract
      * @param string|null $sortOrder
      * @param string|null $expansions
      * @param int|null $maxResults
-     * @param string|null $mediaFields
-     * @param string|null $placeFields
-     * @param string|null $pollFields
-     * @param string|null $tweetFields
-     * @param string|null $userFields
+     * @param Fields|null $fields
      * @return TweetCollectionResponse
      * @throws ClientException
      */
-    public function getRecent(?string $query = null, ?string $startTime = null, ?string $endTime = null, ?string $sinceId = null, ?string $untilId = null, ?string $sortOrder = null, ?string $expansions = null, ?int $maxResults = null, ?string $mediaFields = null, ?string $placeFields = null, ?string $pollFields = null, ?string $tweetFields = null, ?string $userFields = null): TweetCollectionResponse
+    public function getRecent(?string $query = null, ?string $startTime = null, ?string $endTime = null, ?string $sinceId = null, ?string $untilId = null, ?string $sortOrder = null, ?string $expansions = null, ?int $maxResults = null, ?Fields $fields = null): TweetCollectionResponse
     {
         $url = $this->parser->url('/2/tweets/search/recent', [
         ]);
@@ -45,12 +41,9 @@ class SearchTag extends TagAbstract
                 'sort_order' => $sortOrder,
                 'expansions' => $expansions,
                 'max_results' => $maxResults,
-                'media.fields' => $mediaFields,
-                'place.fields' => $placeFields,
-                'poll.fields' => $pollFields,
-                'tweet.fields' => $tweetFields,
-                'user.fields' => $userFields,
+                'fields' => $fields,
             ], [
+                'fields',
             ]),
         ];
 
