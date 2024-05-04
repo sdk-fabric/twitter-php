@@ -23,10 +23,10 @@ class SearchTag extends TagAbstract
      * @param string|null $expansions
      * @param int|null $maxResults
      * @param Fields|null $fields
-     * @return TweetCollectionResponse
+     * @return TweetCollection
      * @throws ClientException
      */
-    public function getRecent(?string $query = null, ?string $startTime = null, ?string $endTime = null, ?string $sinceId = null, ?string $untilId = null, ?string $sortOrder = null, ?string $expansions = null, ?int $maxResults = null, ?Fields $fields = null): TweetCollectionResponse
+    public function getRecent(?string $query = null, ?string $startTime = null, ?string $endTime = null, ?string $sinceId = null, ?string $untilId = null, ?string $sortOrder = null, ?string $expansions = null, ?int $maxResults = null, ?Fields $fields = null): TweetCollection
     {
         $url = $this->parser->url('/2/tweets/search/recent', [
         ]);
@@ -51,7 +51,7 @@ class SearchTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $data = (string) $response->getBody();
 
-            return $this->parser->parse($data, TweetCollectionResponse::class);
+            return $this->parser->parse($data, TweetCollection::class);
         } catch (ClientException $e) {
             throw $e;
         } catch (BadResponseException $e) {

@@ -17,10 +17,10 @@ class TrendsTag extends TagAbstract
      * The Trends lookup endpoint allow developers to get the Trends for a location, specified using the where-on-earth id (WOEID).
      *
      * @param string $woeid
-     * @return TrendsResponse
+     * @return TrendCollection
      * @throws ClientException
      */
-    public function byWoeid(string $woeid): TrendsResponse
+    public function getByWoeid(string $woeid): TrendCollection
     {
         $url = $this->parser->url('/2/trends/by/woeid/:woeid', [
             'woeid' => $woeid,
@@ -36,7 +36,7 @@ class TrendsTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $data = (string) $response->getBody();
 
-            return $this->parser->parse($data, TrendsResponse::class);
+            return $this->parser->parse($data, TrendCollection::class);
         } catch (ClientException $e) {
             throw $e;
         } catch (BadResponseException $e) {

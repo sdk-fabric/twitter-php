@@ -12,12 +12,12 @@ use PSX\Schema\Attribute\Description;
 class LikeResponse implements \JsonSerializable, \PSX\Record\RecordableInterface
 {
     #[Description('')]
-    protected ?LikeResponseMessage $data = null;
-    public function setData(?LikeResponseMessage $data) : void
+    protected ?Like $data = null;
+    public function setData(?Like $data) : void
     {
         $this->data = $data;
     }
-    public function getData() : ?LikeResponseMessage
+    public function getData() : ?Like
     {
         return $this->data;
     }

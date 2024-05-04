@@ -19,10 +19,10 @@ class TweetTag extends TagAbstract
      * @param string|null $ids
      * @param string|null $expansions
      * @param Fields|null $fields
-     * @return TweetCollectionResponse
+     * @return TweetCollection
      * @throws ClientException
      */
-    public function getAll(?string $ids = null, ?string $expansions = null, ?Fields $fields = null): TweetCollectionResponse
+    public function getAll(?string $ids = null, ?string $expansions = null, ?Fields $fields = null): TweetCollection
     {
         $url = $this->parser->url('/2/tweets', [
         ]);
@@ -41,7 +41,7 @@ class TweetTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $data = (string) $response->getBody();
 
-            return $this->parser->parse($data, TweetCollectionResponse::class);
+            return $this->parser->parse($data, TweetCollection::class);
         } catch (ClientException $e) {
             throw $e;
         } catch (BadResponseException $e) {
@@ -62,10 +62,10 @@ class TweetTag extends TagAbstract
      * @param string $tweetId
      * @param string|null $expansions
      * @param Fields|null $fields
-     * @return TweetEntityResponse
+     * @return TweetEntity
      * @throws ClientException
      */
-    public function get(string $tweetId, ?string $expansions = null, ?Fields $fields = null): TweetEntityResponse
+    public function get(string $tweetId, ?string $expansions = null, ?Fields $fields = null): TweetEntity
     {
         $url = $this->parser->url('/2/tweets/:tweet_id', [
             'tweet_id' => $tweetId,
@@ -84,7 +84,7 @@ class TweetTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $data = (string) $response->getBody();
 
-            return $this->parser->parse($data, TweetEntityResponse::class);
+            return $this->parser->parse($data, TweetEntity::class);
         } catch (ClientException $e) {
             throw $e;
         } catch (BadResponseException $e) {
@@ -179,11 +179,11 @@ class TweetTag extends TagAbstract
      * Hides or unhides a reply to a Tweet.
      *
      * @param string $tweetId
-     * @param HideReplyUpdate $payload
+     * @param HideReply $payload
      * @return HideReplyResponse
      * @throws ClientException
      */
-    public function hideReply(string $tweetId, HideReplyUpdate $payload): HideReplyResponse
+    public function hideReply(string $tweetId, HideReply $payload): HideReplyResponse
     {
         $url = $this->parser->url('/2/tweets/:tweet_id/hidden', [
             'tweet_id' => $tweetId,

@@ -12,12 +12,12 @@ use PSX\Schema\Attribute\Description;
 class TweetDeleteResponse implements \JsonSerializable, \PSX\Record\RecordableInterface
 {
     #[Description('')]
-    protected ?TweetDeleteResponseMessage $data = null;
-    public function setData(?TweetDeleteResponseMessage $data) : void
+    protected ?TweetDelete $data = null;
+    public function setData(?TweetDelete $data) : void
     {
         $this->data = $data;
     }
-    public function getData() : ?TweetDeleteResponseMessage
+    public function getData() : ?TweetDelete
     {
         return $this->data;
     }

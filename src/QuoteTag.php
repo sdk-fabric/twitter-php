@@ -22,10 +22,10 @@ class QuoteTag extends TagAbstract
      * @param int|null $maxResults
      * @param string|null $paginationToken
      * @param Fields|null $fields
-     * @return TweetCollectionResponse
+     * @return TweetCollection
      * @throws ClientException
      */
-    public function getAll(string $tweetId, ?string $exclude = null, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null, ?Fields $fields = null): TweetCollectionResponse
+    public function getAll(string $tweetId, ?string $exclude = null, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null, ?Fields $fields = null): TweetCollection
     {
         $url = $this->parser->url('/2/tweets/:tweet_id/quote_tweets', [
             'tweet_id' => $tweetId,
@@ -47,7 +47,7 @@ class QuoteTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $data = (string) $response->getBody();
 
-            return $this->parser->parse($data, TweetCollectionResponse::class);
+            return $this->parser->parse($data, TweetCollection::class);
         } catch (ClientException $e) {
             throw $e;
         } catch (BadResponseException $e) {

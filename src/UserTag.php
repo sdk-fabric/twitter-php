@@ -24,10 +24,10 @@ class UserTag extends TagAbstract
      * @param int|null $maxResults
      * @param string|null $paginationToken
      * @param Fields|null $fields
-     * @return TweetCollectionResponse
+     * @return TweetCollection
      * @throws ClientException
      */
-    public function getTimeline(string $userId, ?string $startTime = null, ?string $endTime = null, ?string $sinceId = null, ?string $untilId = null, ?string $exclude = null, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null, ?Fields $fields = null): TweetCollectionResponse
+    public function getTimeline(string $userId, ?string $startTime = null, ?string $endTime = null, ?string $sinceId = null, ?string $untilId = null, ?string $exclude = null, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null, ?Fields $fields = null): TweetCollection
     {
         $url = $this->parser->url('/2/users/:user_id/timelines/reverse_chronological', [
             'user_id' => $userId,
@@ -53,7 +53,7 @@ class UserTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $data = (string) $response->getBody();
 
-            return $this->parser->parse($data, TweetCollectionResponse::class);
+            return $this->parser->parse($data, TweetCollection::class);
         } catch (ClientException $e) {
             throw $e;
         } catch (BadResponseException $e) {
@@ -76,10 +76,10 @@ class UserTag extends TagAbstract
      * @param int|null $maxResults
      * @param string|null $paginationToken
      * @param Fields|null $fields
-     * @return TweetCollectionResponse
+     * @return TweetCollection
      * @throws ClientException
      */
-    public function getLikedTweets(string $userId, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null, ?Fields $fields = null): TweetCollectionResponse
+    public function getLikedTweets(string $userId, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null, ?Fields $fields = null): TweetCollection
     {
         $url = $this->parser->url('/2/users/:user_id/liked_tweets', [
             'user_id' => $userId,
@@ -100,7 +100,7 @@ class UserTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $data = (string) $response->getBody();
 
-            return $this->parser->parse($data, TweetCollectionResponse::class);
+            return $this->parser->parse($data, TweetCollection::class);
         } catch (ClientException $e) {
             throw $e;
         } catch (BadResponseException $e) {
@@ -177,6 +177,47 @@ class UserTag extends TagAbstract
             $data = (string) $response->getBody();
 
             return $this->parser->parse($data, LikeResponse::class);
+        } catch (ClientException $e) {
+            throw $e;
+        } catch (BadResponseException $e) {
+            $data = (string) $e->getResponse()->getBody();
+
+            switch ($e->getResponse()->getStatusCode()) {
+                default:
+                    throw new UnknownStatusCodeException('The server returned an unknown status code');
+            }
+        } catch (\Throwable $e) {
+            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * @param string|null $usernames
+     * @param string|null $expansions
+     * @param Fields|null $fields
+     * @return UserCollection
+     * @throws ClientException
+     */
+    public function findByName(?string $usernames = null, ?string $expansions = null, ?Fields $fields = null): UserCollection
+    {
+        $url = $this->parser->url('/2/users/by', [
+        ]);
+
+        $options = [
+            'query' => $this->parser->query([
+                'usernames' => $usernames,
+                'expansions' => $expansions,
+                'fields' => $fields,
+            ], [
+                'fields',
+            ]),
+        ];
+
+        try {
+            $response = $this->httpClient->request('GET', $url, $options);
+            $data = (string) $response->getBody();
+
+            return $this->parser->parse($data, UserCollection::class);
         } catch (ClientException $e) {
             throw $e;
         } catch (BadResponseException $e) {

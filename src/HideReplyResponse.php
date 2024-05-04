@@ -12,12 +12,12 @@ use PSX\Schema\Attribute\Description;
 class HideReplyResponse implements \JsonSerializable, \PSX\Record\RecordableInterface
 {
     #[Description('')]
-    protected ?HideReplyUpdate $data = null;
-    public function setData(?HideReplyUpdate $data) : void
+    protected ?HideReply $data = null;
+    public function setData(?HideReply $data) : void
     {
         $this->data = $data;
     }
-    public function getData() : ?HideReplyUpdate
+    public function getData() : ?HideReply
     {
         return $this->data;
     }
