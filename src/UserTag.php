@@ -14,6 +14,8 @@ use Sdkgen\Client\TagAbstract;
 class UserTag extends TagAbstract
 {
     /**
+     * Allows you to retrieve a collection of the most recent Tweets and Retweets posted by you and users you follow. This endpoint can return every Tweet created on a timeline over the last 7 days as well as the most recent 800 regardless of creation date.
+     *
      * @param string $userId
      * @param string|null $startTime
      * @param string|null $endTime
