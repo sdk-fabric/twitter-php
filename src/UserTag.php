@@ -118,6 +118,8 @@ class UserTag extends TagAbstract
     }
 
     /**
+     * Allows a user or authenticated user ID to unlike a Tweet.
+     *
      * @param string $userId
      * @param string $tweetId
      * @return LikeResponse
@@ -156,6 +158,8 @@ class UserTag extends TagAbstract
     }
 
     /**
+     * Causes the user ID identified in the path parameter to Like the target Tweet.
+     *
      * @param string $userId
      * @param SingleTweet $payload
      * @return LikeResponse
@@ -194,6 +198,8 @@ class UserTag extends TagAbstract
     }
 
     /**
+     * Returns a variety of information about one or more users specified by their usernames.
+     *
      * @param string|null $usernames
      * @param string|null $expansions
      * @param Fields|null $fields
