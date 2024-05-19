@@ -17,19 +17,14 @@ class UserTag extends TagAbstract
      * Allows you to retrieve a collection of the most recent Tweets and Retweets posted by you and users you follow. This endpoint can return every Tweet created on a timeline over the last 7 days as well as the most recent 800 regardless of creation date.
      *
      * @param string $userId
-     * @param string|null $startTime
-     * @param string|null $endTime
-     * @param string|null $sinceId
-     * @param string|null $untilId
      * @param string|null $exclude
      * @param string|null $expansions
-     * @param int|null $maxResults
-     * @param string|null $paginationToken
+     * @param Pagination|null $pagination
      * @param Fields|null $fields
      * @return TweetCollection
      * @throws ClientException
      */
-    public function getTimeline(string $userId, ?string $startTime = null, ?string $endTime = null, ?string $sinceId = null, ?string $untilId = null, ?string $exclude = null, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null, ?Fields $fields = null): TweetCollection
+    public function getTimeline(string $userId, ?string $exclude = null, ?string $expansions = null, ?Pagination $pagination = null, ?Fields $fields = null): TweetCollection
     {
         $url = $this->parser->url('/2/users/:user_id/timelines/reverse_chronological', [
             'user_id' => $userId,
@@ -37,16 +32,12 @@ class UserTag extends TagAbstract
 
         $options = [
             'query' => $this->parser->query([
-                'start_time' => $startTime,
-                'end_time' => $endTime,
-                'since_id' => $sinceId,
-                'until_id' => $untilId,
                 'exclude' => $exclude,
                 'expansions' => $expansions,
-                'max_results' => $maxResults,
-                'pagination_token' => $paginationToken,
+                'pagination' => $pagination,
                 'fields' => $fields,
             ], [
+                'pagination',
                 'fields',
             ]),
         ];

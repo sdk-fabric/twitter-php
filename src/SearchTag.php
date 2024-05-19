@@ -15,18 +15,14 @@ class SearchTag extends TagAbstract
 {
     /**
      * @param string|null $query
-     * @param string|null $startTime
-     * @param string|null $endTime
-     * @param string|null $sinceId
-     * @param string|null $untilId
      * @param string|null $sortOrder
      * @param string|null $expansions
-     * @param int|null $maxResults
+     * @param Pagination|null $pagination
      * @param Fields|null $fields
      * @return TweetCollection
      * @throws ClientException
      */
-    public function getRecent(?string $query = null, ?string $startTime = null, ?string $endTime = null, ?string $sinceId = null, ?string $untilId = null, ?string $sortOrder = null, ?string $expansions = null, ?int $maxResults = null, ?Fields $fields = null): TweetCollection
+    public function getRecent(?string $query = null, ?string $sortOrder = null, ?string $expansions = null, ?Pagination $pagination = null, ?Fields $fields = null): TweetCollection
     {
         $url = $this->parser->url('/2/tweets/search/recent', [
         ]);
@@ -34,15 +30,12 @@ class SearchTag extends TagAbstract
         $options = [
             'query' => $this->parser->query([
                 'query' => $query,
-                'start_time' => $startTime,
-                'end_time' => $endTime,
-                'since_id' => $sinceId,
-                'until_id' => $untilId,
                 'sort_order' => $sortOrder,
                 'expansions' => $expansions,
-                'max_results' => $maxResults,
+                'pagination' => $pagination,
                 'fields' => $fields,
             ], [
+                'pagination',
                 'fields',
             ]),
         ];

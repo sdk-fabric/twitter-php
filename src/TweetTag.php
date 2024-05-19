@@ -215,5 +215,49 @@ class TweetTag extends TagAbstract
         }
     }
 
+    /**
+     * Allows you to get information about a Tweet’s liking users.
+     *
+     * @param string $tweetId
+     * @param string|null $expansions
+     * @param int|null $maxResults
+     * @param string|null $paginationToken
+     * @return UserCollection
+     * @throws ClientException
+     */
+    public function getLikingUsers(string $tweetId, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null): UserCollection
+    {
+        $url = $this->parser->url('/2/tweets/:tweet_id/liking_users', [
+            'tweet_id' => $tweetId,
+        ]);
+
+        $options = [
+            'query' => $this->parser->query([
+                'expansions' => $expansions,
+                'max_results' => $maxResults,
+                'pagination_token' => $paginationToken,
+            ], [
+            ]),
+        ];
+
+        try {
+            $response = $this->httpClient->request('GET', $url, $options);
+            $data = (string) $response->getBody();
+
+            return $this->parser->parse($data, UserCollection::class);
+        } catch (ClientException $e) {
+            throw $e;
+        } catch (BadResponseException $e) {
+            $data = (string) $e->getResponse()->getBody();
+
+            switch ($e->getResponse()->getStatusCode()) {
+                default:
+                    throw new UnknownStatusCodeException('The server returned an unknown status code');
+            }
+        } catch (\Throwable $e) {
+            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
+        }
+    }
+
 
 }

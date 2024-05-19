@@ -18,13 +18,12 @@ class BookmarkTag extends TagAbstract
      *
      * @param string $userId
      * @param string|null $expansions
-     * @param int|null $maxResults
      * @param string|null $paginationToken
      * @param Fields|null $fields
      * @return TweetCollection
      * @throws ClientException
      */
-    public function getAll(string $userId, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null, ?Fields $fields = null): TweetCollection
+    public function getAll(string $userId, ?string $expansions = null, ?string $paginationToken = null, ?Fields $fields = null): TweetCollection
     {
         $url = $this->parser->url('/2/users/:user_id/bookmarks', [
             'user_id' => $userId,
@@ -33,7 +32,6 @@ class BookmarkTag extends TagAbstract
         $options = [
             'query' => $this->parser->query([
                 'expansions' => $expansions,
-                'max_results' => $maxResults,
                 'pagination_token' => $paginationToken,
                 'fields' => $fields,
             ], [
