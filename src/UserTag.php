@@ -14,6 +14,92 @@ use Sdkgen\Client\TagAbstract;
 class UserTag extends TagAbstract
 {
     /**
+     * Returns a variety of information about one or more users specified by the requested IDs.
+     *
+     * @param string|null $ids
+     * @param string|null $expansions
+     * @param Fields|null $fields
+     * @return UserCollection
+     * @throws ClientException
+     */
+    public function getAll(?string $ids = null, ?string $expansions = null, ?Fields $fields = null): UserCollection
+    {
+        $url = $this->parser->url('/2/users', [
+        ]);
+
+        $options = [
+            'query' => $this->parser->query([
+                'ids' => $ids,
+                'expansions' => $expansions,
+                'fields' => $fields,
+            ], [
+                'fields',
+            ]),
+        ];
+
+        try {
+            $response = $this->httpClient->request('GET', $url, $options);
+            $data = (string) $response->getBody();
+
+            return $this->parser->parse($data, UserCollection::class);
+        } catch (ClientException $e) {
+            throw $e;
+        } catch (BadResponseException $e) {
+            $data = (string) $e->getResponse()->getBody();
+
+            switch ($e->getResponse()->getStatusCode()) {
+                default:
+                    throw new UnknownStatusCodeException('The server returned an unknown status code');
+            }
+        } catch (\Throwable $e) {
+            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Returns a variety of information about a single user specified by the requested ID.
+     *
+     * @param string $userId
+     * @param string|null $expansions
+     * @param Fields|null $fields
+     * @return User
+     * @throws ClientException
+     */
+    public function get(string $userId, ?string $expansions = null, ?Fields $fields = null): User
+    {
+        $url = $this->parser->url('/2/users/:user_id', [
+            'user_id' => $userId,
+        ]);
+
+        $options = [
+            'query' => $this->parser->query([
+                'expansions' => $expansions,
+                'fields' => $fields,
+            ], [
+                'fields',
+            ]),
+        ];
+
+        try {
+            $response = $this->httpClient->request('GET', $url, $options);
+            $data = (string) $response->getBody();
+
+            return $this->parser->parse($data, User::class);
+        } catch (ClientException $e) {
+            throw $e;
+        } catch (BadResponseException $e) {
+            $data = (string) $e->getResponse()->getBody();
+
+            switch ($e->getResponse()->getStatusCode()) {
+                default:
+                    throw new UnknownStatusCodeException('The server returned an unknown status code');
+            }
+        } catch (\Throwable $e) {
+            throw new ClientException('An unknown error occurred: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Allows you to retrieve a collection of the most recent Tweets and Retweets posted by you and users you follow. This endpoint can return every Tweet created on a timeline over the last 7 days as well as the most recent 800 regardless of creation date.
      *
      * @param string $userId
