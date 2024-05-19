@@ -34,6 +34,11 @@ class Tweet implements \JsonSerializable, \PSX\Record\RecordableInterface
     protected ?string $replySettings = null;
     #[Description('Text of the Tweet being created. This field is required if media.media_ids is not present.')]
     protected ?string $text = null;
+    #[Key('possibly_sensitive')]
+    #[Description('Indicates if this Tweet contains URLs marked as sensitive, for example content suitable for mature audiences.')]
+    protected ?bool $possiblySensitive = null;
+    #[Description('Language of the Tweet, if detected by Twitter. Returned as a BCP47 language tag.')]
+    protected ?string $lang = null;
     public function setDirectMessageDeepLink(?string $directMessageDeepLink) : void
     {
         $this->directMessageDeepLink = $directMessageDeepLink;
@@ -106,6 +111,22 @@ class Tweet implements \JsonSerializable, \PSX\Record\RecordableInterface
     {
         return $this->text;
     }
+    public function setPossiblySensitive(?bool $possiblySensitive) : void
+    {
+        $this->possiblySensitive = $possiblySensitive;
+    }
+    public function getPossiblySensitive() : ?bool
+    {
+        return $this->possiblySensitive;
+    }
+    public function setLang(?string $lang) : void
+    {
+        $this->lang = $lang;
+    }
+    public function getLang() : ?string
+    {
+        return $this->lang;
+    }
     public function toRecord() : \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
@@ -119,6 +140,8 @@ class Tweet implements \JsonSerializable, \PSX\Record\RecordableInterface
         $record->put('reply', $this->reply);
         $record->put('reply_settings', $this->replySettings);
         $record->put('text', $this->text);
+        $record->put('possibly_sensitive', $this->possiblySensitive);
+        $record->put('lang', $this->lang);
         return $record;
     }
     public function jsonSerialize() : object
