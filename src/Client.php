@@ -72,6 +72,14 @@ class Client extends ClientAbstract
         );
     }
 
+    public function retweet(): RetweetTag
+    {
+        return new RetweetTag(
+            $this->httpClient,
+            $this->parser
+        );
+    }
+
 
 
     public static function build(string $token): self
