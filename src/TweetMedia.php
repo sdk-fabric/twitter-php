@@ -27,32 +27,32 @@ class TweetMedia implements \JsonSerializable, \PSX\Record\RecordableInterface
     /**
      * @param array<string>|null $mediaIds
      */
-    public function setMediaIds(?array $mediaIds) : void
+    public function setMediaIds(?array $mediaIds): void
     {
         $this->mediaIds = $mediaIds;
     }
     /**
      * @return array<string>|null
      */
-    public function getMediaIds() : ?array
+    public function getMediaIds(): ?array
     {
         return $this->mediaIds;
     }
     /**
      * @param array<string>|null $taggedUserIds
      */
-    public function setTaggedUserIds(?array $taggedUserIds) : void
+    public function setTaggedUserIds(?array $taggedUserIds): void
     {
         $this->taggedUserIds = $taggedUserIds;
     }
     /**
      * @return array<string>|null
      */
-    public function getTaggedUserIds() : ?array
+    public function getTaggedUserIds(): ?array
     {
         return $this->taggedUserIds;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
@@ -60,7 +60,7 @@ class TweetMedia implements \JsonSerializable, \PSX\Record\RecordableInterface
         $record->put('tagged_user_ids', $this->taggedUserIds);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

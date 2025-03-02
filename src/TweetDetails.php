@@ -34,69 +34,69 @@ class TweetDetails implements \JsonSerializable, \PSX\Record\RecordableInterface
     #[Key('in_reply_to_user_id')]
     #[Description('If this Tweet is a Reply, indicates the user ID of the parent Tweet\'s author. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.')]
     protected ?string $inReplyToUserId = null;
-    public function setId(?string $id) : void
+    public function setId(?string $id): void
     {
         $this->id = $id;
     }
-    public function getId() : ?string
+    public function getId(): ?string
     {
         return $this->id;
     }
-    public function setText(?string $text) : void
+    public function setText(?string $text): void
     {
         $this->text = $text;
     }
-    public function getText() : ?string
+    public function getText(): ?string
     {
         return $this->text;
     }
-    public function setCreatedAt(?\PSX\DateTime\LocalDateTime $createdAt) : void
+    public function setCreatedAt(?\PSX\DateTime\LocalDateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
-    public function getCreatedAt() : ?\PSX\DateTime\LocalDateTime
+    public function getCreatedAt(): ?\PSX\DateTime\LocalDateTime
     {
         return $this->createdAt;
     }
-    public function setAuthorId(?string $authorId) : void
+    public function setAuthorId(?string $authorId): void
     {
         $this->authorId = $authorId;
     }
-    public function getAuthorId() : ?string
+    public function getAuthorId(): ?string
     {
         return $this->authorId;
     }
     /**
      * @param array<string>|null $editHistoryTweetIds
      */
-    public function setEditHistoryTweetIds(?array $editHistoryTweetIds) : void
+    public function setEditHistoryTweetIds(?array $editHistoryTweetIds): void
     {
         $this->editHistoryTweetIds = $editHistoryTweetIds;
     }
     /**
      * @return array<string>|null
      */
-    public function getEditHistoryTweetIds() : ?array
+    public function getEditHistoryTweetIds(): ?array
     {
         return $this->editHistoryTweetIds;
     }
-    public function setConversationId(?string $conversationId) : void
+    public function setConversationId(?string $conversationId): void
     {
         $this->conversationId = $conversationId;
     }
-    public function getConversationId() : ?string
+    public function getConversationId(): ?string
     {
         return $this->conversationId;
     }
-    public function setInReplyToUserId(?string $inReplyToUserId) : void
+    public function setInReplyToUserId(?string $inReplyToUserId): void
     {
         $this->inReplyToUserId = $inReplyToUserId;
     }
-    public function getInReplyToUserId() : ?string
+    public function getInReplyToUserId(): ?string
     {
         return $this->inReplyToUserId;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
@@ -109,7 +109,7 @@ class TweetDetails implements \JsonSerializable, \PSX\Record\RecordableInterface
         $record->put('in_reply_to_user_id', $this->inReplyToUserId);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

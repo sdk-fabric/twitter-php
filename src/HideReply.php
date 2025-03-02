@@ -13,22 +13,22 @@ class HideReply implements \JsonSerializable, \PSX\Record\RecordableInterface
 {
     #[Description('')]
     protected ?bool $hidden = null;
-    public function setHidden(?bool $hidden) : void
+    public function setHidden(?bool $hidden): void
     {
         $this->hidden = $hidden;
     }
-    public function getHidden() : ?bool
+    public function getHidden(): ?bool
     {
         return $this->hidden;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
         $record->put('hidden', $this->hidden);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

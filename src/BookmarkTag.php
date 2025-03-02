@@ -22,6 +22,7 @@ class BookmarkTag extends TagAbstract
      * @param string|null $paginationToken
      * @param Fields|null $fields
      * @return TweetCollection
+     * @throws ErrorsException
      * @throws ClientException
      */
     public function getAll(string $userId, ?string $expansions = null, ?string $paginationToken = null, ?Fields $fields = null): TweetCollection
@@ -46,7 +47,7 @@ class BookmarkTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $body = $response->getBody();
 
-            $data = $this->parser->parse((string) $body, TweetCollection::class);
+            $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(TweetCollection::class));
 
             return $data;
         } catch (ClientException $e) {
@@ -54,6 +55,12 @@ class BookmarkTag extends TagAbstract
         } catch (BadResponseException $e) {
             $body = $e->getResponse()->getBody();
             $statusCode = $e->getResponse()->getStatusCode();
+
+            if ($statusCode >= 0 && $statusCode <= 999) {
+                $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(Errors::class));
+
+                throw new ErrorsException($data);
+            }
 
             throw new UnknownStatusCodeException('The server returned an unknown status code: ' . $statusCode);
         } catch (\Throwable $e) {
@@ -65,6 +72,7 @@ class BookmarkTag extends TagAbstract
      * @param string $userId
      * @param SingleTweet $payload
      * @return BookmarkResponse
+     * @throws ErrorsException
      * @throws ClientException
      */
     public function create(string $userId, SingleTweet $payload): BookmarkResponse
@@ -87,7 +95,7 @@ class BookmarkTag extends TagAbstract
             $response = $this->httpClient->request('POST', $url, $options);
             $body = $response->getBody();
 
-            $data = $this->parser->parse((string) $body, BookmarkResponse::class);
+            $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(BookmarkResponse::class));
 
             return $data;
         } catch (ClientException $e) {
@@ -95,6 +103,12 @@ class BookmarkTag extends TagAbstract
         } catch (BadResponseException $e) {
             $body = $e->getResponse()->getBody();
             $statusCode = $e->getResponse()->getStatusCode();
+
+            if ($statusCode >= 0 && $statusCode <= 999) {
+                $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(Errors::class));
+
+                throw new ErrorsException($data);
+            }
 
             throw new UnknownStatusCodeException('The server returned an unknown status code: ' . $statusCode);
         } catch (\Throwable $e) {
@@ -106,6 +120,7 @@ class BookmarkTag extends TagAbstract
      * @param string $userId
      * @param string $tweetId
      * @return BookmarkResponse
+     * @throws ErrorsException
      * @throws ClientException
      */
     public function delete(string $userId, string $tweetId): BookmarkResponse
@@ -127,7 +142,7 @@ class BookmarkTag extends TagAbstract
             $response = $this->httpClient->request('DELETE', $url, $options);
             $body = $response->getBody();
 
-            $data = $this->parser->parse((string) $body, BookmarkResponse::class);
+            $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(BookmarkResponse::class));
 
             return $data;
         } catch (ClientException $e) {
@@ -135,6 +150,12 @@ class BookmarkTag extends TagAbstract
         } catch (BadResponseException $e) {
             $body = $e->getResponse()->getBody();
             $statusCode = $e->getResponse()->getStatusCode();
+
+            if ($statusCode >= 0 && $statusCode <= 999) {
+                $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(Errors::class));
+
+                throw new ErrorsException($data);
+            }
 
             throw new UnknownStatusCodeException('The server returned an unknown status code: ' . $statusCode);
         } catch (\Throwable $e) {

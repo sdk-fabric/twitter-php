@@ -15,23 +15,23 @@ class TweetCreate implements \JsonSerializable, \PSX\Record\RecordableInterface
     protected ?string $id = null;
     #[Description('')]
     protected ?string $text = null;
-    public function setId(?string $id) : void
+    public function setId(?string $id): void
     {
         $this->id = $id;
     }
-    public function getId() : ?string
+    public function getId(): ?string
     {
         return $this->id;
     }
-    public function setText(?string $text) : void
+    public function setText(?string $text): void
     {
         $this->text = $text;
     }
-    public function getText() : ?string
+    public function getText(): ?string
     {
         return $this->text;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
@@ -39,7 +39,7 @@ class TweetCreate implements \JsonSerializable, \PSX\Record\RecordableInterface
         $record->put('text', $this->text);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

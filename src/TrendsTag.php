@@ -19,6 +19,7 @@ class TrendsTag extends TagAbstract
      *
      * @param string $woeid
      * @return TrendCollection
+     * @throws ErrorsException
      * @throws ClientException
      */
     public function getByWoeid(string $woeid): TrendCollection
@@ -39,7 +40,7 @@ class TrendsTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $body = $response->getBody();
 
-            $data = $this->parser->parse((string) $body, TrendCollection::class);
+            $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(TrendCollection::class));
 
             return $data;
         } catch (ClientException $e) {
@@ -47,6 +48,12 @@ class TrendsTag extends TagAbstract
         } catch (BadResponseException $e) {
             $body = $e->getResponse()->getBody();
             $statusCode = $e->getResponse()->getStatusCode();
+
+            if ($statusCode >= 0 && $statusCode <= 999) {
+                $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(Errors::class));
+
+                throw new ErrorsException($data);
+            }
 
             throw new UnknownStatusCodeException('The server returned an unknown status code: ' . $statusCode);
         } catch (\Throwable $e) {

@@ -13,22 +13,22 @@ class TweetUsageResponse implements \JsonSerializable, \PSX\Record\RecordableInt
 {
     #[Description('')]
     protected ?TweetUsage $data = null;
-    public function setData(?TweetUsage $data) : void
+    public function setData(?TweetUsage $data): void
     {
         $this->data = $data;
     }
-    public function getData() : ?TweetUsage
+    public function getData(): ?TweetUsage
     {
         return $this->data;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
         $record->put('data', $this->data);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

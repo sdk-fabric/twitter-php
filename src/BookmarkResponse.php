@@ -13,22 +13,22 @@ class BookmarkResponse implements \JsonSerializable, \PSX\Record\RecordableInter
 {
     #[Description('')]
     protected ?Bookmark $data = null;
-    public function setData(?Bookmark $data) : void
+    public function setData(?Bookmark $data): void
     {
         $this->data = $data;
     }
-    public function getData() : ?Bookmark
+    public function getData(): ?Bookmark
     {
         return $this->data;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
         $record->put('data', $this->data);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

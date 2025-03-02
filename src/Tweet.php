@@ -39,95 +39,95 @@ class Tweet implements \JsonSerializable, \PSX\Record\RecordableInterface
     protected ?bool $possiblySensitive = null;
     #[Description('Language of the Tweet, if detected by Twitter. Returned as a BCP47 language tag.')]
     protected ?string $lang = null;
-    public function setDirectMessageDeepLink(?string $directMessageDeepLink) : void
+    public function setDirectMessageDeepLink(?string $directMessageDeepLink): void
     {
         $this->directMessageDeepLink = $directMessageDeepLink;
     }
-    public function getDirectMessageDeepLink() : ?string
+    public function getDirectMessageDeepLink(): ?string
     {
         return $this->directMessageDeepLink;
     }
-    public function setForSuperFollowersOnly(?bool $forSuperFollowersOnly) : void
+    public function setForSuperFollowersOnly(?bool $forSuperFollowersOnly): void
     {
         $this->forSuperFollowersOnly = $forSuperFollowersOnly;
     }
-    public function getForSuperFollowersOnly() : ?bool
+    public function getForSuperFollowersOnly(): ?bool
     {
         return $this->forSuperFollowersOnly;
     }
-    public function setGeo(?TweetGeo $geo) : void
+    public function setGeo(?TweetGeo $geo): void
     {
         $this->geo = $geo;
     }
-    public function getGeo() : ?TweetGeo
+    public function getGeo(): ?TweetGeo
     {
         return $this->geo;
     }
-    public function setMedia(?TweetMedia $media) : void
+    public function setMedia(?TweetMedia $media): void
     {
         $this->media = $media;
     }
-    public function getMedia() : ?TweetMedia
+    public function getMedia(): ?TweetMedia
     {
         return $this->media;
     }
-    public function setPoll(?TweetPoll $poll) : void
+    public function setPoll(?TweetPoll $poll): void
     {
         $this->poll = $poll;
     }
-    public function getPoll() : ?TweetPoll
+    public function getPoll(): ?TweetPoll
     {
         return $this->poll;
     }
-    public function setQuoteTweetId(?string $quoteTweetId) : void
+    public function setQuoteTweetId(?string $quoteTweetId): void
     {
         $this->quoteTweetId = $quoteTweetId;
     }
-    public function getQuoteTweetId() : ?string
+    public function getQuoteTweetId(): ?string
     {
         return $this->quoteTweetId;
     }
-    public function setReply(?TweetReply $reply) : void
+    public function setReply(?TweetReply $reply): void
     {
         $this->reply = $reply;
     }
-    public function getReply() : ?TweetReply
+    public function getReply(): ?TweetReply
     {
         return $this->reply;
     }
-    public function setReplySettings(?string $replySettings) : void
+    public function setReplySettings(?string $replySettings): void
     {
         $this->replySettings = $replySettings;
     }
-    public function getReplySettings() : ?string
+    public function getReplySettings(): ?string
     {
         return $this->replySettings;
     }
-    public function setText(?string $text) : void
+    public function setText(?string $text): void
     {
         $this->text = $text;
     }
-    public function getText() : ?string
+    public function getText(): ?string
     {
         return $this->text;
     }
-    public function setPossiblySensitive(?bool $possiblySensitive) : void
+    public function setPossiblySensitive(?bool $possiblySensitive): void
     {
         $this->possiblySensitive = $possiblySensitive;
     }
-    public function getPossiblySensitive() : ?bool
+    public function getPossiblySensitive(): ?bool
     {
         return $this->possiblySensitive;
     }
-    public function setLang(?string $lang) : void
+    public function setLang(?string $lang): void
     {
         $this->lang = $lang;
     }
-    public function getLang() : ?string
+    public function getLang(): ?string
     {
         return $this->lang;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
@@ -144,7 +144,7 @@ class Tweet implements \JsonSerializable, \PSX\Record\RecordableInterface
         $record->put('lang', $this->lang);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

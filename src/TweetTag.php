@@ -21,6 +21,7 @@ class TweetTag extends TagAbstract
      * @param string|null $expansions
      * @param Fields|null $fields
      * @return TweetCollection
+     * @throws ErrorsException
      * @throws ClientException
      */
     public function getAll(?string $ids = null, ?string $expansions = null, ?Fields $fields = null): TweetCollection
@@ -44,7 +45,7 @@ class TweetTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $body = $response->getBody();
 
-            $data = $this->parser->parse((string) $body, TweetCollection::class);
+            $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(TweetCollection::class));
 
             return $data;
         } catch (ClientException $e) {
@@ -52,6 +53,12 @@ class TweetTag extends TagAbstract
         } catch (BadResponseException $e) {
             $body = $e->getResponse()->getBody();
             $statusCode = $e->getResponse()->getStatusCode();
+
+            if ($statusCode >= 0 && $statusCode <= 999) {
+                $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(Errors::class));
+
+                throw new ErrorsException($data);
+            }
 
             throw new UnknownStatusCodeException('The server returned an unknown status code: ' . $statusCode);
         } catch (\Throwable $e) {
@@ -66,6 +73,7 @@ class TweetTag extends TagAbstract
      * @param string|null $expansions
      * @param Fields|null $fields
      * @return TweetEntity
+     * @throws ErrorsException
      * @throws ClientException
      */
     public function get(string $tweetId, ?string $expansions = null, ?Fields $fields = null): TweetEntity
@@ -89,7 +97,7 @@ class TweetTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $body = $response->getBody();
 
-            $data = $this->parser->parse((string) $body, TweetEntity::class);
+            $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(TweetEntity::class));
 
             return $data;
         } catch (ClientException $e) {
@@ -97,6 +105,12 @@ class TweetTag extends TagAbstract
         } catch (BadResponseException $e) {
             $body = $e->getResponse()->getBody();
             $statusCode = $e->getResponse()->getStatusCode();
+
+            if ($statusCode >= 0 && $statusCode <= 999) {
+                $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(Errors::class));
+
+                throw new ErrorsException($data);
+            }
 
             throw new UnknownStatusCodeException('The server returned an unknown status code: ' . $statusCode);
         } catch (\Throwable $e) {
@@ -109,6 +123,7 @@ class TweetTag extends TagAbstract
      *
      * @param Tweet $payload
      * @return TweetCreateResponse
+     * @throws ErrorsException
      * @throws ClientException
      */
     public function create(Tweet $payload): TweetCreateResponse
@@ -130,7 +145,7 @@ class TweetTag extends TagAbstract
             $response = $this->httpClient->request('POST', $url, $options);
             $body = $response->getBody();
 
-            $data = $this->parser->parse((string) $body, TweetCreateResponse::class);
+            $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(TweetCreateResponse::class));
 
             return $data;
         } catch (ClientException $e) {
@@ -138,6 +153,12 @@ class TweetTag extends TagAbstract
         } catch (BadResponseException $e) {
             $body = $e->getResponse()->getBody();
             $statusCode = $e->getResponse()->getStatusCode();
+
+            if ($statusCode >= 0 && $statusCode <= 999) {
+                $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(Errors::class));
+
+                throw new ErrorsException($data);
+            }
 
             throw new UnknownStatusCodeException('The server returned an unknown status code: ' . $statusCode);
         } catch (\Throwable $e) {
@@ -150,6 +171,7 @@ class TweetTag extends TagAbstract
      *
      * @param string $tweetId
      * @return TweetDeleteResponse
+     * @throws ErrorsException
      * @throws ClientException
      */
     public function delete(string $tweetId): TweetDeleteResponse
@@ -170,7 +192,7 @@ class TweetTag extends TagAbstract
             $response = $this->httpClient->request('DELETE', $url, $options);
             $body = $response->getBody();
 
-            $data = $this->parser->parse((string) $body, TweetDeleteResponse::class);
+            $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(TweetDeleteResponse::class));
 
             return $data;
         } catch (ClientException $e) {
@@ -178,6 +200,12 @@ class TweetTag extends TagAbstract
         } catch (BadResponseException $e) {
             $body = $e->getResponse()->getBody();
             $statusCode = $e->getResponse()->getStatusCode();
+
+            if ($statusCode >= 0 && $statusCode <= 999) {
+                $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(Errors::class));
+
+                throw new ErrorsException($data);
+            }
 
             throw new UnknownStatusCodeException('The server returned an unknown status code: ' . $statusCode);
         } catch (\Throwable $e) {
@@ -191,6 +219,7 @@ class TweetTag extends TagAbstract
      * @param string $tweetId
      * @param HideReply $payload
      * @return HideReplyResponse
+     * @throws ErrorsException
      * @throws ClientException
      */
     public function hideReply(string $tweetId, HideReply $payload): HideReplyResponse
@@ -213,7 +242,7 @@ class TweetTag extends TagAbstract
             $response = $this->httpClient->request('PUT', $url, $options);
             $body = $response->getBody();
 
-            $data = $this->parser->parse((string) $body, HideReplyResponse::class);
+            $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(HideReplyResponse::class));
 
             return $data;
         } catch (ClientException $e) {
@@ -221,6 +250,12 @@ class TweetTag extends TagAbstract
         } catch (BadResponseException $e) {
             $body = $e->getResponse()->getBody();
             $statusCode = $e->getResponse()->getStatusCode();
+
+            if ($statusCode >= 0 && $statusCode <= 999) {
+                $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(Errors::class));
+
+                throw new ErrorsException($data);
+            }
 
             throw new UnknownStatusCodeException('The server returned an unknown status code: ' . $statusCode);
         } catch (\Throwable $e) {
@@ -236,6 +271,7 @@ class TweetTag extends TagAbstract
      * @param int|null $maxResults
      * @param string|null $paginationToken
      * @return UserCollection
+     * @throws ErrorsException
      * @throws ClientException
      */
     public function getLikingUsers(string $tweetId, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null): UserCollection
@@ -259,7 +295,7 @@ class TweetTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $body = $response->getBody();
 
-            $data = $this->parser->parse((string) $body, UserCollection::class);
+            $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(UserCollection::class));
 
             return $data;
         } catch (ClientException $e) {
@@ -267,6 +303,12 @@ class TweetTag extends TagAbstract
         } catch (BadResponseException $e) {
             $body = $e->getResponse()->getBody();
             $statusCode = $e->getResponse()->getStatusCode();
+
+            if ($statusCode >= 0 && $statusCode <= 999) {
+                $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(Errors::class));
+
+                throw new ErrorsException($data);
+            }
 
             throw new UnknownStatusCodeException('The server returned an unknown status code: ' . $statusCode);
         } catch (\Throwable $e) {

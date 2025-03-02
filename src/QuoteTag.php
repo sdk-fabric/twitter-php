@@ -24,6 +24,7 @@ class QuoteTag extends TagAbstract
      * @param string|null $paginationToken
      * @param Fields|null $fields
      * @return TweetCollection
+     * @throws ErrorsException
      * @throws ClientException
      */
     public function getAll(string $tweetId, ?string $exclude = null, ?string $expansions = null, ?int $maxResults = null, ?string $paginationToken = null, ?Fields $fields = null): TweetCollection
@@ -50,7 +51,7 @@ class QuoteTag extends TagAbstract
             $response = $this->httpClient->request('GET', $url, $options);
             $body = $response->getBody();
 
-            $data = $this->parser->parse((string) $body, TweetCollection::class);
+            $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(TweetCollection::class));
 
             return $data;
         } catch (ClientException $e) {
@@ -58,6 +59,12 @@ class QuoteTag extends TagAbstract
         } catch (BadResponseException $e) {
             $body = $e->getResponse()->getBody();
             $statusCode = $e->getResponse()->getStatusCode();
+
+            if ($statusCode >= 0 && $statusCode <= 999) {
+                $data = $this->parser->parse((string) $body, \PSX\Schema\SchemaSource::fromClass(Errors::class));
+
+                throw new ErrorsException($data);
+            }
 
             throw new UnknownStatusCodeException('The server returned an unknown status code: ' . $statusCode);
         } catch (\Throwable $e) {

@@ -20,29 +20,29 @@ class TweetPoll implements \JsonSerializable, \PSX\Record\RecordableInterface
      */
     #[Description('A list of poll options for a Tweet with a poll. For the request to be successful it must also include duration_minutes too.')]
     protected ?array $options = null;
-    public function setDurationMinutes(?int $durationMinutes) : void
+    public function setDurationMinutes(?int $durationMinutes): void
     {
         $this->durationMinutes = $durationMinutes;
     }
-    public function getDurationMinutes() : ?int
+    public function getDurationMinutes(): ?int
     {
         return $this->durationMinutes;
     }
     /**
      * @param array<string>|null $options
      */
-    public function setOptions(?array $options) : void
+    public function setOptions(?array $options): void
     {
         $this->options = $options;
     }
     /**
      * @return array<string>|null
      */
-    public function getOptions() : ?array
+    public function getOptions(): ?array
     {
         return $this->options;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
@@ -50,7 +50,7 @@ class TweetPoll implements \JsonSerializable, \PSX\Record\RecordableInterface
         $record->put('options', $this->options);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

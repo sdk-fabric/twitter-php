@@ -18,23 +18,23 @@ class Trend implements \JsonSerializable, \PSX\Record\RecordableInterface
     #[Key('tweet_count')]
     #[Description('')]
     protected ?int $tweetCount = null;
-    public function setTrendName(?string $trendName) : void
+    public function setTrendName(?string $trendName): void
     {
         $this->trendName = $trendName;
     }
-    public function getTrendName() : ?string
+    public function getTrendName(): ?string
     {
         return $this->trendName;
     }
-    public function setTweetCount(?int $tweetCount) : void
+    public function setTweetCount(?int $tweetCount): void
     {
         $this->tweetCount = $tweetCount;
     }
-    public function getTweetCount() : ?int
+    public function getTweetCount(): ?int
     {
         return $this->tweetCount;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
@@ -42,7 +42,7 @@ class Trend implements \JsonSerializable, \PSX\Record\RecordableInterface
         $record->put('tweet_count', $this->tweetCount);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

@@ -13,22 +13,22 @@ class TweetDelete implements \JsonSerializable, \PSX\Record\RecordableInterface
 {
     #[Description('')]
     protected ?bool $deleted = null;
-    public function setDeleted(?bool $deleted) : void
+    public function setDeleted(?bool $deleted): void
     {
         $this->deleted = $deleted;
     }
-    public function getDeleted() : ?bool
+    public function getDeleted(): ?bool
     {
         return $this->deleted;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
         $record->put('deleted', $this->deleted);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

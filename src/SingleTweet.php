@@ -15,22 +15,22 @@ class SingleTweet implements \JsonSerializable, \PSX\Record\RecordableInterface
     #[Key('tweet_id')]
     #[Description('')]
     protected ?string $tweetId = null;
-    public function setTweetId(?string $tweetId) : void
+    public function setTweetId(?string $tweetId): void
     {
         $this->tweetId = $tweetId;
     }
-    public function getTweetId() : ?string
+    public function getTweetId(): ?string
     {
         return $this->tweetId;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
         $record->put('tweet_id', $this->tweetId);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

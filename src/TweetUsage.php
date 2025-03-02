@@ -24,39 +24,39 @@ class TweetUsage implements \JsonSerializable, \PSX\Record\RecordableInterface
     #[Key('project_usage')]
     #[Description('')]
     protected ?string $projectUsage = null;
-    public function setCapResetDay(?int $capResetDay) : void
+    public function setCapResetDay(?int $capResetDay): void
     {
         $this->capResetDay = $capResetDay;
     }
-    public function getCapResetDay() : ?int
+    public function getCapResetDay(): ?int
     {
         return $this->capResetDay;
     }
-    public function setProjectCap(?string $projectCap) : void
+    public function setProjectCap(?string $projectCap): void
     {
         $this->projectCap = $projectCap;
     }
-    public function getProjectCap() : ?string
+    public function getProjectCap(): ?string
     {
         return $this->projectCap;
     }
-    public function setProjectId(?string $projectId) : void
+    public function setProjectId(?string $projectId): void
     {
         $this->projectId = $projectId;
     }
-    public function getProjectId() : ?string
+    public function getProjectId(): ?string
     {
         return $this->projectId;
     }
-    public function setProjectUsage(?string $projectUsage) : void
+    public function setProjectUsage(?string $projectUsage): void
     {
         $this->projectUsage = $projectUsage;
     }
-    public function getProjectUsage() : ?string
+    public function getProjectUsage(): ?string
     {
         return $this->projectUsage;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
@@ -66,7 +66,7 @@ class TweetUsage implements \JsonSerializable, \PSX\Record\RecordableInterface
         $record->put('project_usage', $this->projectUsage);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

@@ -13,22 +13,22 @@ class Like implements \JsonSerializable, \PSX\Record\RecordableInterface
 {
     #[Description('')]
     protected ?string $liked = null;
-    public function setLiked(?string $liked) : void
+    public function setLiked(?string $liked): void
     {
         $this->liked = $liked;
     }
-    public function getLiked() : ?string
+    public function getLiked(): ?string
     {
         return $this->liked;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
         $record->put('liked', $this->liked);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

@@ -24,47 +24,47 @@ class User implements \JsonSerializable, \PSX\Record\RecordableInterface
     protected ?string $pinnedTweetId = null;
     #[Description('')]
     protected ?string $username = null;
-    public function setCreatedAt(?string $createdAt) : void
+    public function setCreatedAt(?string $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
-    public function getCreatedAt() : ?string
+    public function getCreatedAt(): ?string
     {
         return $this->createdAt;
     }
-    public function setId(?string $id) : void
+    public function setId(?string $id): void
     {
         $this->id = $id;
     }
-    public function getId() : ?string
+    public function getId(): ?string
     {
         return $this->id;
     }
-    public function setName(?string $name) : void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
-    public function getName() : ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
-    public function setPinnedTweetId(?string $pinnedTweetId) : void
+    public function setPinnedTweetId(?string $pinnedTweetId): void
     {
         $this->pinnedTweetId = $pinnedTweetId;
     }
-    public function getPinnedTweetId() : ?string
+    public function getPinnedTweetId(): ?string
     {
         return $this->pinnedTweetId;
     }
-    public function setUsername(?string $username) : void
+    public function setUsername(?string $username): void
     {
         $this->username = $username;
     }
-    public function getUsername() : ?string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
@@ -75,7 +75,7 @@ class User implements \JsonSerializable, \PSX\Record\RecordableInterface
         $record->put('username', $this->username);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

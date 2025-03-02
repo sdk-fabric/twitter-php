@@ -15,22 +15,22 @@ class TweetGeo implements \JsonSerializable, \PSX\Record\RecordableInterface
     #[Key('place_id')]
     #[Description('Place ID being attached to the Tweet for geo location.')]
     protected ?string $placeId = null;
-    public function setPlaceId(?string $placeId) : void
+    public function setPlaceId(?string $placeId): void
     {
         $this->placeId = $placeId;
     }
-    public function getPlaceId() : ?string
+    public function getPlaceId(): ?string
     {
         return $this->placeId;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
         $record->put('place_id', $this->placeId);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

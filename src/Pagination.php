@@ -30,55 +30,55 @@ class Pagination implements \JsonSerializable, \PSX\Record\RecordableInterface
     #[Key('pagination_token')]
     #[Description('')]
     protected ?string $paginationToken = null;
-    public function setStartTime(?string $startTime) : void
+    public function setStartTime(?string $startTime): void
     {
         $this->startTime = $startTime;
     }
-    public function getStartTime() : ?string
+    public function getStartTime(): ?string
     {
         return $this->startTime;
     }
-    public function setEndTime(?string $endTime) : void
+    public function setEndTime(?string $endTime): void
     {
         $this->endTime = $endTime;
     }
-    public function getEndTime() : ?string
+    public function getEndTime(): ?string
     {
         return $this->endTime;
     }
-    public function setSinceId(?string $sinceId) : void
+    public function setSinceId(?string $sinceId): void
     {
         $this->sinceId = $sinceId;
     }
-    public function getSinceId() : ?string
+    public function getSinceId(): ?string
     {
         return $this->sinceId;
     }
-    public function setUntilId(?string $untilId) : void
+    public function setUntilId(?string $untilId): void
     {
         $this->untilId = $untilId;
     }
-    public function getUntilId() : ?string
+    public function getUntilId(): ?string
     {
         return $this->untilId;
     }
-    public function setMaxResults(?int $maxResults) : void
+    public function setMaxResults(?int $maxResults): void
     {
         $this->maxResults = $maxResults;
     }
-    public function getMaxResults() : ?int
+    public function getMaxResults(): ?int
     {
         return $this->maxResults;
     }
-    public function setPaginationToken(?string $paginationToken) : void
+    public function setPaginationToken(?string $paginationToken): void
     {
         $this->paginationToken = $paginationToken;
     }
-    public function getPaginationToken() : ?string
+    public function getPaginationToken(): ?string
     {
         return $this->paginationToken;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
@@ -90,7 +90,7 @@ class Pagination implements \JsonSerializable, \PSX\Record\RecordableInterface
         $record->put('pagination_token', $this->paginationToken);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }
