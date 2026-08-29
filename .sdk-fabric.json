@@ -1,0 +1,11 @@
+{
+  "typehub_user": "sdkfabric",
+  "typehub_document": "twitter",
+  "github_user": "sdk-fabric",
+  "github_repository": "twitter-php",
+
+  "name": "sdkfabric/twitter",
+  "description": "Twitter PHP SDK managed by SDK Fabric",
+  "namespace": "SdkFabric\\Twitter",
+  "website": "https://sdk-fabric.org"
+}
